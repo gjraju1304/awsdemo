@@ -69,6 +69,6 @@ jobs:
 
       # Code coverage
     - name: code coverage
-      run : dotnet test --collect:"XPlat Code Coverage"
+      run : dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestProject1/coverage
 
    
