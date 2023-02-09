@@ -59,10 +59,10 @@ jobs:
       
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Restore
-      run: dotnet restore ./advdemo.sln
+      run: dotnet restore
     
     - name: Build
-      run: dotnet build ./advdemo.sln --no-restore
+      run: dotnet build --no-restore
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
