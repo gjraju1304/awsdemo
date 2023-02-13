@@ -2,14 +2,6 @@ name: Delete old workflow runs
 on:
   workflow_dispatch:
     inputs:
-      days:
-        description: 'Number of days.'
-        required: false
-        default: one
-      minimum_runs:
-        description: 'The minimum runs to keep for each workflow.'
-        required: false
-        default: six
       delete_run_by_conclusion_pattern:
         description: 'Remove workflow by conclusion: action_required, cancelled, failure, success'
         required: true
