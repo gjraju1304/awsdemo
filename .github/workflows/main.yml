@@ -4,7 +4,7 @@ on:
     inputs:
       days:
         description: 'Number of days.'
-        required: true
+        required: false
         default: one
       minimum_runs:
         description: 'The minimum runs to keep for each workflow.'
