@@ -11,7 +11,7 @@ on:
         required: true
         default: six
       delete_run_by_conclusion_pattern:
-        description: 'Remove workflow by conclusion: action_required, cancelled, failure, skipped, success'
+        description: 'Remove workflow by conclusion: action_required, cancelled, failure, success'
         required: true
         default: "All"
         type: choice
@@ -20,7 +20,6 @@ on:
           - action_required
           - cancelled
           - failure
-          - skipped
           - success
 jobs:
   del_runs:
