@@ -18,4 +18,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete workflow runs
-        run: "${GITHUB_WORKSPACE}/.github/deletescript.sh"     
+        run: ../deletescript.sh     
