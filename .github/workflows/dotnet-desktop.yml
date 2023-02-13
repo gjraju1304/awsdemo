@@ -34,13 +34,13 @@ jobs:
 
     # Code coverage
     - name: code coverage
-      run : dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestProject1/coverage
+      run : dotnet test --collect:"XPlat Code Coverage"
       
   # upload artifacts
     - name: Archive code coverage results
       uses: actions/upload-artifact@v3
       with:
         name: code-coverage-report
-        path: ./TestProject1/coverage/coverage.cobertura.xml
+        path: ./TestProject1/TestResults/**/coverage.cobertura.xml
     
    
