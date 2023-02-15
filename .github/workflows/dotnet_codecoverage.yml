@@ -44,3 +44,11 @@ jobs:
 
     - name: Generate code coverage report
       run: reportgenerator "-reports:./TestProject1/TestResults/**/coverage.cobertura.xml" "-targetdir:./.github/" "-reporttypes:Html"
+    - name: Check code coverage percentage
+      run: |
+        threshold=80
+        coverage=$(cat ./.github/index.htm | grep -E -o "[0-9]{1,3}(\.[0-9]{1,2})?%?" | head -n 1 | tr -d '%')
+        if [ $(echo "$coverage >= $threshold" | bc -l) -eq 0 ]; then
+          echo "Code coverage is below $threshold% ($coverage%)"
+          exit 1
+        fi
