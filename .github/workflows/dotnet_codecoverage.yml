@@ -1,0 +1,34 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  upload-code-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build and run tests
+      run: dotnet test --collect:"XPlat Code Coverage"
+
+    - name: Upload code coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage
+        path: |
+          ./MyProject.Tests/TestResults/$(date +%Y%m%d%H%M%S)/coverage.cobertura.xml
+
+    - name: Install reportgenerator tool
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Generate code coverage report
+      run: reportgenerator "-reports:./MyProject.Tests/TestResults/*/coverage.cobertura.xml" "-targetdir:./code-coverage-report" "-reporttypes:Html"
