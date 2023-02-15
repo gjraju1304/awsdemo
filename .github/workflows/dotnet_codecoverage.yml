@@ -1,4 +1,4 @@
-name: Code Coverage
+name: .NET Core Desktop
 
 on:
   push:
@@ -7,28 +7,40 @@ on:
     branches: [ "master" ]
 
 jobs:
-  upload-code-coverage:
-    runs-on: ubuntu-latest
+  ubuntu:
+   runs-on: ubuntu-latest
+   timeout-minutes: 10
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+   steps:
 
-    - name: Restore dependencies
+    - name: Checkout
+      uses: actions/checkout@v3
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Restore
       run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
 
-    - name: Build and run tests
-      run: dotnet test --collect:"XPlat Code Coverage"
-
-    - name: Upload code coverage
-      uses: actions/upload-artifact@v2
+    # Code coverage
+    - name: code coverage
+      run : dotnet test --collect:"XPlat Code Coverage"
+      
+  # upload artifacts
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
       with:
-        name: coverage
-        path: |
-          ./MyProject.Tests/TestResults/**/coverage.cobertura.xml
-
+        name: code-coverage-report
+        path: ./TestProject1/TestResults/**/coverage.cobertura.xml
     - name: Install reportgenerator tool
       run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
     - name: Generate code coverage report
-      run: reportgenerator "-reports:./MyProject.Tests/TestResults/*/coverage.cobertura.xml" "-targetdir:./code-coverage-report" "-reporttypes:Html"
+      run: reportgenerator "-reports:./TestProject1/TestResults/**/coverage.cobertura.xml" "-targetdir:./code-coverage-report" "-reporttypes:Html"
